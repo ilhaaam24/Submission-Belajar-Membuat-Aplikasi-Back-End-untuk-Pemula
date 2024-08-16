@@ -43,13 +43,21 @@ const addBookHandler = (request, h) => {
   return response;
 };
 
-const getAllBooksHandler = (request, h) => {
+const getAllBooksHandler =(request, h) =>{
+  const bookList = books.map(book => ({
+    id: book.id,
+    name: book.name,
+    publisher: book.publisher
+
+  }));
   const response = h.response({
-    status: "success",
+    status: 'success',
     data: {
-      books,
-    },
+      books: bookList
+    }
   });
-};
+  response.code(200);
+  return response;
+}
 
 module.exports = { addBookHandler, getAllBooksHandler };
