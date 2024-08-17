@@ -7,6 +7,15 @@ const addBookHandler = (request, h) => {
   const createdAt = new Date().toString();
   const updatedAt = createdAt;
 
+  if(name === undefined || name === '') {
+    const response = h.response({
+      status: 'fail',
+      message: 'Gagal menambahkan buku. Mohon isi nama buku'
+    });
+    response.code(400);
+    return response;
+  }
+
   const newBook = {
     id,
     name,
