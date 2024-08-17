@@ -82,5 +82,27 @@ const getBookByIdHandler = (request, h) =>{
   response.code(404);
   return response
 }
+const getBookIdByNameHandler = (request, h) => {
+  const name = request.query.name;
+  const book = books.filter(book => book.name.toLowerCase() === name);
 
-module.exports = { addBookHandler, getAllBooksHandler ,getBookByIdHandler};
+  if(book.length > 0){
+    const response = h.response({
+      status : 'success',
+      data:{
+        book
+      }
+    });
+    response.code(200);
+    return response
+  }
+
+  const response = h.response({
+    status : 'fail',
+    message : 'Buku tidak ditemukan'
+  });
+  response.code(404);
+  return response
+}
+
+module.exports = { addBookHandler, getAllBooksHandler ,getBookByIdHandler,getBookIdByNameHandler};
