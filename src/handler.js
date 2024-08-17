@@ -141,9 +141,10 @@ const getBookIdByQueryHandler = (request, h) => {
 };
 
 const editBookByIdHandler = (request, h) => {
-  const { id } = request.params;
+  const { bookId } = request.params;
   const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload;
   const updatedAt = new Date().toISOString();
+  const index = books.findIndex((book) => book.id === bookId);
 
   if (name === undefined || name === "") {
     const response = h.response({
@@ -163,35 +164,35 @@ const editBookByIdHandler = (request, h) => {
     return response;
   }
 
-  const index = books.findIndex((book) => book.id === id);
 
-  if (index) {
-    books[index] = {
-      ...books[index],
-      name,
-      year,
-      author,
-      summary,
-      publisher,
-      pageCount,
-      readPage,
-      reading,
-      updatedAt,
-    };
+  if (index === -1) {
     const response = h.response({
-      status: "success",
-      message: "Buku berhasil diperbarui",
-    });
-    response.code(200);
-    return response;
-  } else {
-    const response = h.response({
-      status: "fail",
+      status: 'fail',
       message: "Gagal memperbarui buku. Id tidak ditemukan",
     });
     response.code(404);
     return response;
   }
+
+
+  books[index] = {
+    ...books[index],
+    name,
+    year,
+    author,
+    summary,
+    publisher,
+    pageCount,
+    readPage,
+    reading,
+    updatedAt,
+  };
+  const response = h.response({
+    status: "success",
+    message: "Buku berhasil diperbarui",
+  });
+  response.code(200);
+  return response;
 };
 
 const deleteBookByIdHandler = (request, h) => {
