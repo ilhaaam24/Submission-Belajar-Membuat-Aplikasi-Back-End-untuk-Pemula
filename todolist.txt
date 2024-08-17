@@ -1,0 +1,11 @@
+1.port 9000 ☑️
+2.npm run start☑️
+3.method POST add book☑️
+4.ID usinng nanoid☑️
+5.validation finished,name,readpage > pagecount☑️
+7.showing all book☑️
+8.detail book by id☑️
+8.update, name, readpage > pagecount☑️
+10.delete book by ID☑️
+11.query, name,finished, reading☑️
+12.testing☑️
