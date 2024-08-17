@@ -6,6 +6,7 @@ const addBookHandler = (request, h) => {
   const id = nanoid(10);
   const createdAt = new Date().toString();
   const updatedAt = createdAt;
+  const finished = pageCount === readPage? true : false
 
   if(name === undefined || name === '') {
     const response = h.response({
@@ -15,6 +16,16 @@ const addBookHandler = (request, h) => {
     response.code(400);
     return response;
   }
+  if(readPage > pageCount) {
+    const response = h.response({
+      status: 'fail',
+      message: 'Gagal menambahkan buku. Read Page tidak boleh lebih besar dari Page Count'
+    });
+    response.code(400);
+    return response;
+  }
+  
+  
 
   const newBook = {
     id,
@@ -25,6 +36,7 @@ const addBookHandler = (request, h) => {
     publisher,
     pageCount,
     readPage,
+    finished,
     reading,
     createdAt,
     updatedAt,
@@ -91,15 +103,34 @@ const getBookByIdHandler = (request, h) =>{
   response.code(404);
   return response
 }
-const getBookIdByNameHandler = (request, h) => {
-  const name = request.query.name;
-  const book = books.filter(book => book.name.toLowerCase() === name);
+const getBookIdByQueryHandler = (request, h) => {
+  const { name, finished, reading} = request.query;
+  let filteredBooks = books;
 
-  if(book.length > 0){
+  if(name){
+    filteredBooks = filteredBooks.filter(book => book.name.toLowerCase().includes(name));
+  }
+   if(finished){
+    if(finished === '1'){
+      filteredBooks = filteredBooks.filter(book => book.finished === true);
+    }else{
+      filteredBooks = filteredBooks.filter(book => book.finished === false);
+    }
+   }
+
+   if(reading){
+    if(reading ==='1'){
+      filteredBooks = filteredBooks.filter(book => book.reading === true)
+    }else {
+      filteredBooks = filteredBooks.filter(book => book.reading === false)
+    }
+   }
+  
+  if(filteredBooks.length > 0){
     const response = h.response({
       status : 'success',
       data:{
-        book
+        filteredBooks
       }
     });
     response.code(200);
@@ -114,4 +145,4 @@ const getBookIdByNameHandler = (request, h) => {
   return response
 }
 
-module.exports = { addBookHandler, getAllBooksHandler ,getBookByIdHandler,getBookIdByNameHandler};
+module.exports = { addBookHandler, getAllBooksHandler ,getBookByIdHandler,getBookIdByQueryHandler};
