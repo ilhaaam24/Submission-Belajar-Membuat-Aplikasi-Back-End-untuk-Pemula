@@ -61,41 +61,38 @@ const addBookHandler = (request, h) => {
   response.code(500);
   return response;
 };
-const getAllBooksHandler = (request, h) =>{
+const getAllBooksHandler = (request, h) => {
   const { name, reading, finished } = request.query;
   let filteredBooks = books;
 
-  if (name){
-    filteredBooks = filteredBooks.filter((book) =>book.name.toLowerCase().includes(name.toLowerCase()));  }
+  if (name) {
+    filteredBooks = filteredBooks.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
+  }
 
-  if (reading === '1'){
+  if (reading === '1') {
     filteredBooks = filteredBooks.filter((book) => book.reading === true);
-  } else if (reading === '0'){
+  } else if (reading === '0') {
     filteredBooks = filteredBooks.filter((book) => book.reading === false);
   }
 
-  if (finished === '1'){
+  if (finished === '1') {
     filteredBooks = filteredBooks.filter((book) => book.finished === true);
-  } else if (finished === '0'){
+  } else if (finished === '0') {
     filteredBooks = filteredBooks.filter((book) => book.finished === false);
   }
   const bookList = filteredBooks.map((book) => ({
     id: book.id,
     name: book.name,
-    publisher: book.publisher
+    publisher: book.publisher,
   }));
   const response = h.response({
-    status:'success',
+    status: 'success',
     data: {
-      books: bookList
-    }
+      books: bookList,
+    },
   });
   response.code(200);
   return response;
-
-
-
-
 };
 const getBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
@@ -163,6 +160,15 @@ const editBookByIdHandler = (request, h) => {
   const updatedAt = new Date().toISOString();
   const index = books.findIndex((book) => book.id === bookId);
 
+  if (index === -1) {
+    const response = h.response({
+      status: 'fail',
+      message: 'Gagal memperbarui buku. Id tidak ditemukan',
+    });
+    response.code(404);
+    return response;
+  }
+
   if (name === undefined || name === '') {
     const response = h.response({
       status: 'fail',
@@ -178,15 +184,6 @@ const editBookByIdHandler = (request, h) => {
       message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
     });
     response.code(400);
-    return response;
-  }
-
-  if (index === -1) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Gagal memperbarui buku. Id tidak ditemukan',
-    });
-    response.code(404);
     return response;
   }
 
