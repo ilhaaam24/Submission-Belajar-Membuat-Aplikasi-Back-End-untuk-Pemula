@@ -136,6 +136,11 @@ const getBookIdByQueryHandler = (request, h) => {
   return response;
 };
 
+const editBookByIdHandler = (request, h) => {
+  const {id} = request.params;
+
+}
+
 
 const deleteBookByIdHandler = (request, h) => {
   const  { id} = request.params;
@@ -157,4 +162,4 @@ const deleteBookByIdHandler = (request, h) => {
   response.code(404);
   return response;
 }
-module.exports = { addBookHandler, getAllBooksHandler, getBookByIdHandler, getBookIdByQueryHandler, deleteBookByIdHandler };
+module.exports = { addBookHandler, getAllBooksHandler, getBookByIdHandler, getBookIdByQueryHandler, deleteBookByIdHandler ,editBookByIdHandler};
