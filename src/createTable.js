@@ -1,8 +1,8 @@
-const poo = require('./db');
+const pool = require('./db');
 
 
 const createTable = async() =>{
-  const createBookTableQuery = `
+  const createBooksTableQuery = `
     CREATE TABLE IF NOT EXISTS books (
       id VARCHAR(10) PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
@@ -18,12 +18,12 @@ const createTable = async() =>{
       updatedAt DATETIME
     );
   `;
-}
   try {
     const [result] = await pool.execute(createBooksTableQuery);
     console.log('Tabel books berhasil dibuat:', result);
   } catch (err) {
     console.error('Gagal membuat tabel books:', err);
   };
+}
 
 createTable();
