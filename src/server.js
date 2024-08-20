@@ -13,13 +13,6 @@ const init = async ()=>{
     }
 
   });
-  // server.route({
-  //   method: 'GET',
-  //   path: '/',
-  //   handler: (request, h) => {
-  //     return 'Homepage';
-  //   }
-  // })
   server.route(routes);
   await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
