@@ -65,7 +65,9 @@ const addBookHandler = async (request, h) => {
     response.code(500);
     return response;
   }
-};const getAllBooksHandler = async (request, h) => {
+};
+
+const getAllBooksHandler = async (request, h) => {
   const { name, reading, finished } = request.query;
 
   let query = "SELECT id, name, publisher FROM books";
@@ -115,7 +117,6 @@ const addBookHandler = async (request, h) => {
 };
 const getBookByIdHandler = async (request, h) => {
   const { bookId } = request.params;
-  const detailBook = books.filter((book) => book.id === bookId)[0];
   const query = `SELECT * FROM books WHERE id = ?`;
 
   // if (detailBook !== undefined) {
