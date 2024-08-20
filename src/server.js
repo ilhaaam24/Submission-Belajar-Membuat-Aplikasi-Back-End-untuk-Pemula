@@ -6,7 +6,7 @@ const init = async ()=>{
   // membuat tabel books
   await createTable();
 
-
+  // inisialisasi server menggunakan Hapi
   const server = Hapi.Server({
     port: 9000,
     host: 'localhost',

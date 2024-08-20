@@ -27,3 +27,4 @@ const createTable = async() =>{
 }
 
 createTable();
+module.exports = createTable
